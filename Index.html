@@ -1,0 +1,2273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+      :root {
+        --primary-color: #ff00ff;
+        --accent-color: #ff1493;
+        --background-color: #0a0a0a;
+        --card-background: #1a1a1a;
+        --text-color: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+
+      nav {
+        background-color: rgba(
+          20,
+          20,
+          20,
+          0.95
+        ); /* Even darker, almost opaque */
+        padding: 1.5rem 10%;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: none;
+        transition: background-color 0.3s ease, transform 0.3s ease; /* Added transform transition */
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25); /* Deeper shadow */
+        backdrop-filter: blur(14px); /* Slightly increased blur */
+        transform: translateY(
+          0
+        ); /* Reset transform to ensure it starts in the correct position */
+      }
+
+      nav:hover {
+        transform: translateY(
+          -3px
+        ); /* Slight upward movement on hover for added interactivity */
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0;
+      }
+
+      .logo {
+        font-size: 1.8rem; /* Slightly larger */
+        font-weight: 900; /* Even bolder */
+        color: var(--text-color);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        letter-spacing: 0.75px; /* More pronounced letter spacing */
+        text-shadow: 0 0 8px rgba(var(--primary-color-rgb), 0.4); /* Subtle glow on the logo */
+      }
+
+      .nav-center {
+        display: flex;
+        gap: 3rem; /* Further increased gap */
+      }
+
+      .nav-link {
+        color: #eee; /* Even lighter text */
+        text-decoration: none;
+        transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease; /* Added text-shadow transition */
+        position: relative;
+        font-weight: 500;
+      }
+
+      .nav-link:hover {
+        color: var(--text-color);
+        transform: translateY(-4px); /* More noticeable lift */
+        text-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.5); /* Subtle glow on hover */
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -8px; /* Even lower */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 4px; /* Slightly thicker */
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        border-radius: 2px; /* Rounded underline */
+        opacity: 0;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; /* Smoother animation */
+      }
+
+      .nav-link:hover::after {
+        opacity: 1;
+        width: 70%; /* Underline is slightly shorter than the text */
+      }
+
+      .nav-link.active {
+        color: var(--text-color);
+        text-shadow: 0 0 14px var(--primary-color); /* More intense glow */
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-button {
+        background: linear-gradient(
+          135deg,
+          var(--accent-color),
+          var(--primary-color)
+        ); /* Angled gradient */
+        color: white;
+        text-decoration: none;
+        padding: 0.85rem 2rem; /* Slightly larger */
+        border-radius: 50px;
+        font-weight: 700; /* Even bolder */
+        transition: all 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+        box-shadow: 0 5px 10px rgba(var(--primary-color-rgb), 0.7); /* Stronger glow */
+        letter-spacing: 0.75px;
+        border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+      }
+
+      .nav-button:hover {
+        transform: translateY(-4px); /* More lift */
+        box-shadow: 0 7px 14px rgba(var(--primary-color-rgb), 0.8);
+      }
+
+      /* Add a glassmorphism effect */
+      nav {
+        background-color: rgba(
+          25,
+          25,
+          25,
+          0.8
+        ); /* Semi-transparent background */
+        backdrop-filter: blur(
+          10px
+        ); /* Apply blur to the content behind the navbar */
+      }
+
+      /* Add a subtle border */
+      .nav-container {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 1rem;
+      }
+
+      /* Add a wavy animation to the links */
+      .nav-link {
+        position: relative;
+        overflow: hidden; /* Clip the pseudo-element */
+      }
+
+      .nav-link::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.6s ease-in-out;
+        z-index: 1;
+      }
+
+      .nav-link:hover::before {
+        left: 100%; /* Move the pseudo-element from left to right */
+      }
+
+      /* Add a glowing effect to the active link */
+      .nav-link.active {
+        text-shadow: 0 0 10px var(--primary-color);
+      }
+
+      /* Add padding to hero section to account for fixed nav */
+      .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4rem 10%;
+        padding-top: 120px;
+        min-height: 80vh;
+        position: relative;
+        z-index: 1;
+        background: transparent;
+      }
+
+      .hero-content {
+        max-width: 600px;
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+        min-height: 12rem; /* Ensure space for all three lines */
+        perspective: 1000px;
+      }
+
+      .hero-title span {
+        color: var(--primary-color);
+        display: block;
+        transform-style: preserve-3d;
+      }
+
+      .hero-description {
+        color: #888;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .cta-button {
+        background: var(--primary-color);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        transition: transform 0.3s ease;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+      }
+
+      .hero-image {
+        width: 400px;
+        height: 400px;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        animation: float 6s ease-in-out infinite;
+        box-shadow: 0 10px 30px rgba(255, 0, 255, 0.2);
+      }
+
+      .hero-image::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(255, 0, 255, 0.2),
+          rgba(255, 20, 147, 0.2)
+        );
+        z-index: 1;
+      }
+
+      .hero-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.1);
+        transition: transform 0.3s ease;
+      }
+
+      .hero-image:hover img {
+        transform: scale(1.15);
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-10px) rotate(1deg);
+        }
+        50% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        75% {
+          transform: translateY(10px) rotate(-1deg);
+        }
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+      }
+
+      /* Add glowing effect */
+      .hero-image::after {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+          45deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        z-index: -1;
+        border-radius: 22px;
+        filter: blur(15px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .hero-image:hover::after {
+        opacity: 0.5;
+      }
+
+      /* Add shine effect */
+      @keyframes shine {
+        0% {
+          transform: translateX(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) rotate(45deg);
+        }
+      }
+
+      .hero-image::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent 40%,
+          rgba(255, 255, 255, 0.2) 45%,
+          rgba(255, 255, 255, 0.3) 50%,
+          rgba(255, 255, 255, 0.2) 55%,
+          transparent 60%
+        );
+        z-index: 2;
+        animation: shine 3s infinite;
+        pointer-events: none;
+      }
+
+      .trusted-by {
+        padding: 4rem 10%;
+        text-align: center;
+      }
+
+      .trusted-by h3 {
+        color: #888;
+        margin-bottom: 2rem;
+      }
+
+      .company-logos {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+        opacity: 0.6;
+      }
+
+      .services {
+        padding: 4rem 10%;
+      }
+
+      .services-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .services-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .services-title span {
+        color: var(--primary-color);
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .service-card {
+        background: var(--card-background);
+        padding: 2rem;
+        border-radius: 20px;
+        transition: transform 0.3s ease;
+      }
+
+      .service-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .service-icon {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 1rem;
+      }
+
+      .service-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .service-description {
+        color: #888;
+        line-height: 1.6;
+      }
+
+      /* About Section Styles */
+      .about {
+        padding: 4rem 10%;
+        background-color: transparent; /* Changed to transparent */
+        position: relative; /* Add position relative */
+      }
+
+      /* Add a pseudo-element for the background */
+      .about::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--background-color);
+        opacity: 0.7; /* Adjust this value to control transparency */
+        z-index: -1;
+      }
+
+      .about-header {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .about-title {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .about-title span {
+        color: var(--primary-color);
+      }
+
+      .about-content {
+        color: #888;
+        line-height: 1.6;
+      }
+
+      .subtitle {
+        color: var(--text-color);
+        font-size: 1.5rem;
+        margin: 2rem 0 1rem;
+      }
+
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        gap: 0.5rem;
+        margin-top: 2rem;
+      }
+
+      .tech-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 1.2rem; /* Increased font size */
+        color: var(--text-color);
+      }
+
+      .tech-item img {
+        width: 60px; /* Increased image width */
+        height: 60px; /* Increased image height */
+        margin-bottom: 0.5rem;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .tech-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .tech-item span {
+        color: var(--text-color);
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      /* Projects Section Styles */
+      .projects {
+        padding: 4rem 10%;
+      }
+
+      .projects-title {
+        font-size: 3rem;
+        margin-bottom: 3rem;
+        color: var(--text-color);
+      }
+
+      .project-card {
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.5),
+          rgba(30, 41, 59, 0.2)
+        );
+        border-radius: 24px;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 24px;
+        padding: 1px;
+        background: linear-gradient(45deg, #3b82f6, #14b8a6);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+      }
+
+      .project-content {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .project-info h3 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-color);
+      }
+
+      .project-info p {
+        color: #888;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .project-features {
+        margin-bottom: 2rem;
+      }
+
+      .project-features h4 {
+        font-size: 1.2rem;
+        color: var(--text-color);
+        margin-bottom: 1rem;
+      }
+
+      .feature-list {
+        list-style: none;
+        color: #888;
+      }
+
+      .feature-list li {
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .feature-list li::before {
+        content: "•";
+        color: #3b82f6;
+      }
+
+      .project-tech {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .tech-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(30, 41, 59, 0.5);
+        border-radius: 100px;
+      }
+
+      .tech-badge img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .project-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 100px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .preview-link {
+        background: #3b82f6;
+        color: white;
+      }
+
+      .github-link {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-color);
+      }
+
+      .project-image {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .project-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Footer Styles */
+      .footer {
+        padding: 4rem 10%;
+        background-color: var(--background-color);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 2fr;
+        gap: 4rem;
+        padding-bottom: 4rem;
+      }
+
+      .footer-brand h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+      }
+
+      .footer-brand p {
+        color: #888;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .social-link {
+        color: var(--text-color);
+        text-decoration: none;
+        padding: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .social-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-section h3 {
+        font-size: 1.2rem;
+        color: var(--text-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .footer-links a {
+        color: #888;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--text-color);
+      }
+
+      .footer-contact p {
+        color: #888;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      .footer-contact a {
+        color: var(--text-color);
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 0.5rem;
+      }
+
+      .copyright {
+        text-align: center;
+        color: #888;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Add styles for the Three.js canvas */
+      #animation-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      /* Update typing animation styles */
+      #typing-text,
+      #typing-role,
+      #typing-specialty {
+        display: inline-block;
+        position: relative;
+        white-space: nowrap;
+        overflow: hidden;
+        margin: 0;
+        background: linear-gradient(
+          90deg,
+          #ff00ff 0%,
+          #00ffff 50%,
+          #ff00ff 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% auto;
+        animation: gradient 8s linear infinite;
+        text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        font-weight: 700;
+      }
+
+      #typing-text::after,
+      #typing-role::after,
+      #typing-specialty::after {
+        content: "";
+        position: absolute;
+        right: -4px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 80%;
+        background: linear-gradient(
+          to bottom,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        animation: cursor-blink 0.8s steps(2) infinite;
+        box-shadow: 0 0 15px var(--primary-color);
+        border-radius: 2px;
+      }
+
+      /* Enhanced gradient animation */
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+          filter: hue-rotate(0deg);
+        }
+        50% {
+          background-position: 100% 50%;
+          filter: hue-rotate(180deg);
+        }
+        100% {
+          background-position: 0% 50%;
+          filter: hue-rotate(360deg);
+        }
+      }
+
+      /* Enhanced slide-up animation */
+      @keyframes slideUp {
+        0% {
+          transform: translateY(30px) scale(0.9);
+          opacity: 0;
+          filter: blur(10px);
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+          filter: blur(0);
+        }
+      }
+
+      /* Add glow effect */
+      @keyframes glow {
+        0%,
+        100% {
+          text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+        50% {
+          text-shadow: 0 0 30px rgba(255, 0, 255, 0.5),
+            0 0 40px rgba(255, 0, 255, 0.3);
+        }
+      }
+
+      .typing-container {
+        opacity: 0;
+        animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+          glow 2s ease-in-out infinite;
+        transform-origin: left;
+      }
+
+      .typing-container.visible {
+        opacity: 1;
+      }
+
+      /* Add letter spacing animation */
+      @keyframes letterSpacing {
+        0%,
+        100% {
+          letter-spacing: normal;
+        }
+        50% {
+          letter-spacing: 2px;
+        }
+      }
+
+      .hero-title {
+        perspective: 1000px;
+      }
+
+      .hero-title span {
+        display: block;
+        transform-style: preserve-3d;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="animation-canvas"></canvas>
+
+    <nav>
+      <div class="nav-container">
+        <a href="#" class="logo">
+          <span
+            style="
+              background: linear-gradient(to right, #ff00ff, #00ffff);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              font-weight: bold;
+            "
+            >Muhammad Uzair</span
+          >
+        </a>
+
+        <div class="nav-center">
+          <a href="#home" class="nav-link active">Home</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#skills" class="nav-link">Skills</a>
+          <a href="#Our_Services" class="nav-link">Our Services</a>
+        </div>
+
+        <div class="nav-right">
+          <a href="#contact" class="nav-button">Contact Me</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content" data-aos="fade-right">
+        <h1 class="hero-title">
+          <span id="typing-text"></span><br />
+          <span id="typing-role"></span><br />
+          <span id="typing-specialty"></span>
+        </h1>
+        <p class="hero-description">
+          Generative AI Expert & Full-Stack Developer specializing in building
+          AI-driven applications and scalable solutions using Python, FastAPI,
+          Next.js, and modern AI frameworks.
+        </p>
+        <a href="#contact" class="cta-button">
+          Get in Touch
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      <div class="hero-image" data-aos="fade-left" data-aos-delay="200">
+        <img src="dp2.jpg" alt="Muhammad Uzair" />
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about-header">
+        <h2 class="about-title" data-aos="fade-up"><span
+            style="
+              background: linear-gradient(to right, #ff00ff, #00ffff);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              font-weight: bold;
+            "
+            >About Me</span></h2>
+        <div class="about-content" style="text-align: center">
+          <h3 class="subtitle" data-aos="fade-up">Professional Summary</h3>
+          <p data-aos="fade-up" data-aos-delay="100">
+            Full-Stack Developer and Generative AI Expert with expertise in
+            Python, FastAPI, Next.js, and TypeScript. Specialized in developing
+            AI-powered applications, backend systems, and full-stack solutions.
+            Passionate about leveraging cutting-edge technologies like
+            LangChain, LangGraph, and CrewAI to create efficient and scalable
+            products.
+          </p>
+
+          <h3 class="subtitle" data-aos="fade-up">Education</h3>
+          <div class="education-item" data-aos="fade-up" data-aos-delay="100">
+            <h4>Bachelor of Business and Information Technology</h4>
+            <p>
+              University of Engineering and Technology, Lahore (2022-Present) -
+              3.5 CGPA
+            </p>
+          </div>
+          <div class="education-item" data-aos="fade-up" data-aos-delay="150">
+            <h4>FSC Pre-Engineering</h4>
+            <p>Barrett Hodgson International College (2020-2022) - A+ Grade</p>
+          </div>
+
+          <h3 class="subtitle" data-aos="fade-up">Credentials</h3>
+          <ul class="credentials-list" data-aos="fade-up" data-aos-delay="100">
+            <li>Crash Course on Python (Google)</li>
+            <li>AI & Machine Learning (UET)</li>
+            <li>Career Essentials in Generative AI (Microsoft/LinkedIn)</li>
+            <li>FastAPI Framework (Duke University)</li>
+            <li>T3 Stack Certification</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="skills" id="skills">
+        <div class="services-header">
+            <h2 class="services-title"><span
+                style="
+                  background: linear-gradient(to right, #ff00ff, #00ffff);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  font-weight: bold;
+                "
+                >Skills</span></h2>
+      </div>
+      <marquee behavior="scroll" direction="left" scrollamount="10">
+        <div class="tech-grid">
+          <!-- Updated Skill Icons -->
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="100">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzI2CGffZkR0zjVnRLxhU6GweU-nV9sK3Iuw&s"
+              alt="Python"
+            />
+            <span>Python</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="100">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwgFl_MkBLy1ADIxh5GPDr_RtSl_N6jllhbQ&s"
+              alt="Python"
+            />
+            <span>Html</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="100">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRscc-cwCQQunXWnMDfXTeeUHeTOgU9GFmHbw&s"
+              alt="Python"
+            />
+            <span>Css</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="100">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSElp79saeMrMXOGhxdKGQYdaepHaJXqW388w&s"
+              alt="Python"
+            />
+            <span>Javascript</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="100">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeEyLHM1eXX6qQrkPsc618ArbsICZ-Ed8oQQ&s"
+              alt="Python"
+            />
+            <span>Django</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="100">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRC2C9EVtvZjW_wQ3f9bEP2Fgla230C3kVYQ&s"
+              alt="Python"
+            />
+            <span>Numpy</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="100">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHEDicm2YpQCw-jDOAGdWldUWS0mU6LF4Iqw&s"
+              alt="Python"
+            />
+            <span>Pandas</span>
+          </div>
+
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="150">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2oVNdno5liQUIAEEjqei4QV_Gsih-RWGcOA&s"
+              alt="FastAPI"
+            />
+            <span>FastAPI</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="200">
+            <img
+              src="https://images.prismic.io/turing/652ec31afbd9a45bcec81965_Top_Features_in_Next_js_13_7f9a32190f.webp?auto=format,compress"
+              alt="Next.js"
+            />
+            <span>Next.js</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="250">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlB0a2to_HXGbIrKO0LMVpfNHer4VmscAmyQ&s"
+              alt="LangChain"
+            />
+            <span>LangChain</span>
+          </div>
+
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="350">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ8u9J0QCU4yykRNduILQmlwN1H2VCVNeifQ&s"
+              alt="TypeScript"
+            />
+            <span>TypeScript</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="400">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNhoXisDruJMDAq3Ltd-wuaMW2lGxck9wAKw&s"
+              alt="Tailwind CSS"
+            />
+            <span>Tailwind CSS</span>
+          </div>
+          <div class="tech-item" data-aos="fade-up" data-aos-delay="450">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz2bBJezquJefKRxKPyW_S2pIYViSr5rm6Vw&s"
+              alt="SQL"
+            />
+            <span>SQL</span>
+          </div>
+        </div>
+      </marquee>
+    </section>
+    <section class="projects" id="projects">
+      <h2  align="center" class="projects-title" data-aos="fade-up"> <span
+        style="
+          background: linear-gradient(to right, #ff00ff, #00ffff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: bold;
+          font-size: 50px;
+        "
+        >Projects</span>  </h2>
+
+      <!-- Agentia (Ai base website) -->
+      <div
+        class="project-card"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        style="margin-bottom: 20px"
+      >
+        <div class="project-content">
+          <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+            <h3>Agentia (Ai base website)</h3>
+            <p>A complete website featuring my AI tools and other projects.</p>
+
+            <div class="project-features">
+              <h4>Features:</h4>
+              <ul class="feature-list">
+                <li>AI Tools Integration</li>
+                <li>Portfolio of Additional Projects</li>
+              </ul>
+            </div>
+
+            <div class="project-tech">
+              <!-- Add or replace tech badges as needed -->
+              <div class="tech-badge">
+                <span>GeminiAI</span>
+              </div>
+              <div class="tech-badge">
+                <span>Python</span>
+              </div>
+              <div class="tech-badge">
+                <span>Html</span>
+              </div>
+              <div class="tech-badge">
+                <span>Css</span>
+              </div>
+              <div class="tech-badge">
+                <span>Javascript</span>
+              </div>
+              <div class="tech-badge">
+                <span>Tailwind Css</span>
+              </div>
+            </div>
+
+            <div class="project-links" style="position: relative; z-index: 10">
+              <a
+                href="https://uzair-devops.github.io/Agentia/"
+                target="_blank"
+                class="project-link preview-link"
+              >
+                Live Preview
+              </a>
+              <a
+                href="https://github.com/Uzair-DeVops/Agentia"
+                target="_blank"
+                class="project-link github-link"
+              >
+                View on GitHub
+              </a>
+            </div>
+          </div>
+
+          <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+            <img src="agentia.png" alt="Agentia Screenshot" />
+          </div>
+        </div>
+      </div>
+      <!-- End of Agentia -->
+
+      <!-- Complete Multipage Website (Tailwind Css) -->
+      <div
+        class="project-card"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        style="margin-bottom: 20px"
+      >
+        <div class="project-content">
+          <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+            <h3>Complete Multipage Website (Tailwind Css)</h3>
+            <p>
+              Developed using HTML, CSS, Tailwind CSS, and JavaScript, focusing
+              on modern UI/UX with a responsive design.
+            </p>
+
+            <div class="project-features">
+              <h4>Features:</h4>
+              <ul class="feature-list">
+                <li>Responsive multi-page layout</li>
+                <li>Tailwind-based styling</li>
+                <li>Modern UI/UX design</li>
+              </ul>
+            </div>
+
+            <div class="project-tech">
+              <div class="tech-badge">
+                <span>HTML5</span>
+              </div>
+              <div class="tech-badge">
+                <span>CSS3</span>
+              </div>
+              <div class="tech-badge">
+                <span>Tailwind CSS</span>
+              </div>
+              <div class="tech-badge">
+                <span>JavaScript</span>
+              </div>
+            </div>
+
+            <div class="project-links" style="position: relative; z-index: 10">
+              <a href="https://complete-website-no-1.vercel.app/" target="_blank" class="project-link preview-link"> Live Preview </a>
+              <a href="https://github.com/Uzair-DeVops/Complete_Website_no_1" target="_blank" class="project-link github-link"> View on GitHub </a>
+            </div>
+          </div>
+
+          <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+            <img src="tailwind_website.png" alt="Tailwind Website Screenshot" />
+          </div>
+        </div>
+      </div>
+      <!-- End of Complete Multipage Website -->
+             <!-- Complete Ai Application with multiple featurs -->
+      <div
+      class="project-card"
+      data-aos="fade-up"
+      data-aos-delay="100"
+      style="margin-bottom: 20px"
+    >
+      <div class="project-content">
+        <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+          <h3>Complete AI Application with Multiple Features</h3>
+          <p>
+            Developed agentic AI applications using LangChain and LLMs, making
+            AI more interactive and context-aware.
+          </p>
+
+          <div class="project-features">
+            <h4>Features:</h4>
+            <ul class="feature-list">
+              <li>Context-aware AI responses</li>
+              <li>Agent-based architecture</li>
+              <li>Seamless integration with external APIs</li>
+            </ul>
+          </div>
+
+          <div class="project-tech">
+            <div class="tech-badge">
+              <span>LangChain</span>
+            </div>
+            <div class="tech-badge">
+              <span>Python</span>
+            </div>
+            <div class="tech-badge">
+              <span>Gemini</span>
+            </div>
+
+
+          </div>
+
+          <div class="project-links" style="position: relative; z-index: 10">
+            <a href="https://completeaiapplication-ctrwnjvn2lqdtzkbgndjoc.streamlit.app/"  target="_blank" class="project-link preview-link"> Live Preview </a>
+            <a href="https://github.com/Uzair-DeVops/Complete_AI_Application"  target="_blank" class="project-link github-link" > View on GitHub </a>
+          </div>
+        </div>
+
+        <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+          <img
+            src="ai.png"
+            alt="Complete AI Application Screenshot"
+          />
+        </div>
+      </div>
+    </div>
+    <!-- End of Complete Ai Application -->
+           <!-- AI Email responder (Gen Ai) -->
+           <div
+           class="project-card"
+           data-aos="fade-up"
+           data-aos-delay="100"
+           style="margin-bottom: 20px"
+         >
+           <div class="project-content">
+             <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+               <h3>AI Email Responder (Gen AI)</h3>
+               <p>
+                 A fully automated AI-based email responder that reads unseen
+                 emails, generates appropriate responses, and sends them to the
+                 sender automatically.
+               </p>
+   
+               <div class="project-features">
+                 <h4>Features:</h4>
+                 <ul class="feature-list">
+                   <li>Automatic email reading</li>
+                   <li>AI-driven response generation</li>
+                   <li>Hands-free email management</li>
+                 </ul>
+               </div>
+   
+               <div class="project-tech">
+                 <div class="tech-badge">
+                   <span>GeminiAI</span>
+                 </div>
+                 <div class="tech-badge">
+                   <span>Python</span>
+                 </div>
+               </div>
+   
+               <div class="project-links" style="position: relative; z-index: 10">
+                 <a href="https://uzair-devops-email-responder-app-z26zfv.streamlit.app/"  target="_blank" class="project-link preview-link"> Live Preview </a>
+                 <a href="https://github.com/Uzair-DeVops/Email-responder" target="_blank" class="project-link github-link"> View on GitHub </a>
+               </div>
+             </div>
+   
+             <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+               <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN-qNNeb_-8V_LznkkwEQoS94l1Uei7xrXwhVSRFnTl9QiJjacl2SE_GKdnoGdcccCA1w&usqp=CAU" alt="AI Email Responder Screenshot" />
+             </div>
+           </div>
+         </div>
+         <!-- End of AI Email Responder -->
+
+      <!-- FOOD APP (DJANGO) -->
+      <div
+        class="project-card"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        style="margin-bottom: 20px"
+      >
+        <div class="project-content">
+          <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+            <h3>FOOD APP (DJANGO)</h3>
+            <p>
+              A full-stack app with CRUD functionality using HTML, CSS, Tailwind
+              CSS, and JavaScript as frontend, and Django as backend.
+            </p>
+
+            <div class="project-features">
+              <h4>Features:</h4>
+              <ul class="feature-list">
+                <li>Create, Read, Update, and Delete (CRUD) operations</li>
+                <li>Responsive frontend with Tailwind CSS</li>
+                <li>Django-powered backend</li>
+              </ul>
+            </div>
+
+            <div class="project-tech">
+              <div class="tech-badge">
+                <span>Django</span>
+              </div>
+              <div class="tech-badge">
+                <span>Python</span>
+              </div>
+              <div class="tech-badge">
+                <span>Tailwind CSS</span>
+              </div>
+              <div class="tech-badge">
+                <span>JavaScript</span>
+              </div>
+            </div>
+
+            <div class="project-links" style="position: relative; z-index: 10">
+              <a href="https://miro.medium.com/v2/resize:fit:1400/1*eWbNRY_UnGFJC5YqcqBSwA.jpeg" target="_blank" class="project-link github-link"> View on GitHub </a>
+            </div>
+          </div>
+
+          <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+            <img src="https://miro.medium.com/v2/resize:fit:1400/1*eWbNRY_UnGFJC5YqcqBSwA.jpeg" alt="Food App Screenshot" />
+          </div>
+        </div>
+      </div>
+      <!-- End of FOOD APP -->
+
+      <!-- AI-Powered CV Generator -->
+      <div
+        class="project-card"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        style="margin-bottom: 20px"
+      >
+        <div class="project-content">
+          <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+            <h3>AI-Powered CV Generator</h3>
+            <p>
+              A web app built with Python and Django that automates CV creation
+              based on user inputs, ensuring professional formatting and quick
+              generation.
+            </p>
+
+            <div class="project-features">
+              <h4>Features:</h4>
+              <ul class="feature-list">
+                <li>Automated CV creation from user inputs</li>
+                <li>Professional formatting templates</li>
+                <li>Quick and easy export options</li>
+              </ul>
+            </div>
+
+            <div class="project-tech">
+              <div class="tech-badge">
+                <span>Django</span>
+              </div>
+              <div class="tech-badge">
+                <span>Python</span>
+              </div>
+            </div>
+
+            <div class="project-links" style="position: relative; z-index: 10">
+              <a href="https://github.com/Uzair-DeVops/CV-Generator" target="_blank" class="project-link github-link"> View on GitHub </a>
+            </div>
+          </div>
+
+          <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNutxMxHrj75kEUKBUlFQXRrAquuhxTBatTg&s"
+              alt="AI-Powered CV Generator Screenshot"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- End of AI-Powered CV Generator -->
+
+      <!-- Rock, Paper, Scissors Game (Javascript) -->
+      <div
+        class="project-card"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        style="margin-bottom: 20px"
+      >
+        <div class="project-content">
+          <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+            <h3>Rock, Paper, Scissors Game (Javascript)</h3>
+            <p>
+              A simple yet fun interactive game to enhance logic and user
+              engagement. Built using JavaScript, HTML, and CSS.
+            </p>
+
+            <div class="project-features">
+              <h4>Features:</h4>
+              <ul class="feature-list">
+                <li>Player vs Computer gameplay</li>
+                <li>Score tracking</li>
+                <li>Interactive UI</li>
+              </ul>
+            </div>
+
+            <div class="project-tech">
+              <div class="tech-badge">
+                <span>JavaScript</span>
+              </div>
+              <div class="tech-badge">
+                <span>HTML5</span>
+              </div>
+              <div class="tech-badge">
+                <span>CSS3</span>
+              </div>
+            </div>
+
+            <div class="project-links" style="position: relative; z-index: 10">
+              <a href="https://uzair-devops.github.io/Rock_Paper_Scissors/" target="_blank" class="project-link preview-link"> Live Preview </a>
+              <a href="https://github.com/Uzair-DeVops/Rock_Paper_Scissors" target="_blank" class="project-link github-link"> View on GitHub </a>
+            </div>
+          </div>
+
+          <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ysGcKbY9BPN1RyfXSUK-XNZKWL3dv16ERQ&s" alt="Rock Paper Scissors Game Screenshot" />
+          </div>
+        </div>
+      </div>
+      <!-- End of Rock, Paper, Scissors Game -->
+
+
+
+      <!-- Tic-Tac-Toe Game (JS) -->
+      <div
+        class="project-card"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        style="margin-bottom: 20px"
+      >
+        <div class="project-content">
+          <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+            <h3>Tic-Tac-Toe Game (JS)</h3>
+            <p>
+              A fun and interactive web-based game built using JavaScript, HTML,
+              and CSS. Players take turns marking Xs and Os on a 3x3 grid.
+            </p>
+
+            <div class="project-features">
+              <h4>Features:</h4>
+              <ul class="feature-list">
+                <li>Two-player mode</li>
+                <li>Clean and responsive UI</li>
+                <li>Instant win detection</li>
+              </ul>
+            </div>
+
+            <div class="project-tech">
+              <div class="tech-badge">
+                <span>JavaScript</span>
+              </div>
+              <div class="tech-badge">
+                <span>HTML5</span>
+              </div>
+              <div class="tech-badge">
+                <span>CSS3</span>
+              </div>
+            </div>
+
+            <div class="project-links" style="position: relative; z-index: 10">
+              <a href="https://uzair-devops.github.io/Tic_tac_toe_game/ target="_blank" class="project-link preview-link"> Live Preview </a>
+              <a href="https://github.com/Uzair-DeVops/Tic_tac_toe_game" target="_blank" class="project-link github-link"> View on GitHub </a>
+            </div>
+          </div>
+
+          <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Gw3oAHo9C_NoyJLubQWsk7VvoV_QEsPxrg&s" alt="Tic-Tac-Toe Game Screenshot" />
+          </div>
+        </div>
+      </div>
+      <!-- End of Tic-Tac-Toe Game -->
+
+      <!-- Blackjack Game (Python) -->
+      <div
+        class="project-card"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        style="margin-bottom: 20px"
+      >
+        <div class="project-content">
+          <div class="project-info" data-aos="fade-right" data-aos-delay="200">
+            <h3>Blackjack Game (Python)</h3>
+            <p>
+              A console-based card game built in Python, where players aim to
+              get as close to 21 as possible without going over. Includes
+              standard hit, stand, and bust mechanics.
+            </p>
+
+            <div class="project-features">
+              <h4>Features:</h4>
+              <ul class="feature-list">
+                <li>Standard Blackjack rules</li>
+                <li>Dealer AI logic</li>
+                <li>Simple console interface</li>
+              </ul>
+            </div>
+
+            <div class="project-tech">
+              <div class="tech-badge">
+                <span>Python</span>
+              </div>
+            </div>
+
+            <div class="project-links" style="position: relative; z-index: 10">
+              <a href="https://github.com/Uzair-DeVops/blackjack_game" target="_blank" class="project-link github-link"> View on GitHub </a>
+            </div>
+          </div>
+
+          <div class="project-image" data-aos="fade-left" data-aos-delay="300">
+            <img src="https://www.blitzpoker.com/wp-content/uploads/2024/02/Blackjack-Game-Rules.webp" alt="Blackjack Game Screenshot" />
+          </div>
+        </div>
+      </div>
+      <!-- End of Blackjack Game -->
+
+
+    </section>
+
+    <!-- Services Section -->
+        
+    <!-- Services Section -->
+    <a name="Our_Services"><section id="services"  class="py-20 bg-[--background-color]"></a>
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up"> <span
+                style="
+                  background: linear-gradient(to right, #ff00ff, #00ffff);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  font-weight: bold;
+                  font-size: 50px;
+                "
+                >Our Tools</span></h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-gray-700 p-6  rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-5xl mb-4">📝</div>
+                    <h3 class="text-2xl font-bold mb-4">AI PDF Summarizer</h3>
+                    <p class="text-gray-300 mb-4">Online Summarizer.</p>
+                    
+                    <a href="https://rag-application-ltzdlk4idhdyxfmxva8ybm.streamlit.app/", target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                </a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">🎥</div>
+                    <h3 class="text-2xl font-bold mb-4">AI Video Summarizer</h3>
+                    <p class="text-gray-300  mb-4">Cross-platform mobile applications.</p>
+                    <a href="https://uzair-devops-ai-video-summarizer-app-vkp7bo.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                </a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">🖼️ </div>
+                    <h3 class="text-2xl font-bold mb-4">AI Image Summarizer</h3>
+                    <p class="text-gray-300  mb-4">Online optimization.</p>
+                   <a href="https://image-summarizer-bj5jtpvhg48kjbtby4nybk.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a> 
+                </div>
+
+                <!-- Service 4 -->
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">🎨</div>
+                    <h3 class="text-2xl font-bold mb-4">AI Text to Image</h3>
+                    <p class="text-gray-300  mb-4">Complete digital protection solutions.</p>
+                    <a href="https://image-generator-dlg9fds7mr4vqkvjvcj2pj.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4"> 📝 </div>
+                    <h3 class="text-2xl font-bold mb-4">AI Translator</h3>
+                    <p class="text-gray-300  mb-4">Data-driven marketing strategies.</p>
+                    <a href="https://ai-translator-hmnbrfz6woddbrkc4c7d7p.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">✈️</div>
+                    <h3 class="text-2xl font-bold mb-4">AI Trip Planner</h3>
+                    <p class="text-gray-300  mb-4">Custom AI integration & development.</p>
+                    <a href="https://ai-translator-hmnbrfz6woddbrkc4c7d7p.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+
+                <!-- Service 7 -->
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">🎓</div>
+                    <h3 class="text-2xl font-bold mb-4">AI English Tutor</h3>
+                    <p class="text-gray-300  mb-4">Cloud migration & management.</p>
+                    <a href="https://al-english-tutor-y3pn9njntcubfxdnst3qbq.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+
+                <!-- Service 8 -->
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">🌐</div>
+                    <h3 class="text-2xl font-bold mb-4">AI News Teller</h3>
+                    <p class="text-gray-300  mb-4">User-centered interface design.</p>
+                    <a href="https://ai-news-telller-ogm7pnatzarkd5yyazw5kw.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4"> 📨</div>
+                    <h3 class="text-2xl font-bold mb-4">AI Email Responder</h3>
+                    <p class="text-gray-300  mb-4">User-centered interface design.</p>
+                    <a href="https://uzair-devops-email-responder-app-z26zfv.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+
+
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">🏞️</div>
+                    <h3 class="text-2xl font-bold mb-4">AI Image Searcher</h3>
+                    <p class="text-gray-300  mb-4">User-centered interface design.</p>
+                    <a href="https://image-searcher-g86mebjkfujyj6828b9mb8.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">🤖</div>
+                    <h3 class="text-2xl font-bold mb-4">Other AI related Tools</h3>
+                    <p class="text-gray-300  mb-4">User-centered interface design.</p>
+                    <a href="https://uzair-devops-ai-tool-calling-app-app-crovcr.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+
+                <div class="bg-gray-700 p-6 rounded-xl hover:transform hover:scale-105 transition-all" data-aos="zoom-in">
+                    <div class="text-purple-400 text-4xl mb-4">🤖</div>
+                    <h3 class="text-2xl font-bold mb-4">ALL Tools </h3>
+                    <p class="text-gray-300  mb-4">User-centered interface design.</p>
+                    <a href="https://completeaiapplication-ctrwnjvn2lqdtzkbgndjoc.streamlit.app/" , target="_blank"><button class="bg-gray-800 hover:bg-gray-900 px-8 py-2 rounded-2xl transition-all">
+                        Use Tools
+                    </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-[--background-color]">
+      <div class="container mx-auto px-6 max-w-2xl">
+        <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
+            <span
+            style="
+              background: linear-gradient(to right, #ff00ff, #00ffff);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              font-weight: bold;
+              font-size: 50px;
+            "
+            >Get In Touch</span>
+        </h2>
+        <form class="space-y-6">
+          <div data-aos="fade-right">
+            <input
+              type="text"
+              placeholder="Name"
+              class="w-full bg-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          <div data-aos="fade-left">
+            <input
+              type="email"
+              placeholder="Email"
+              class="w-full bg-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          <div data-aos="fade-up">
+            <textarea
+              rows="5"
+              placeholder="Message"
+              class="w-full bg-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            ></textarea>
+          </div>
+          <button
+            class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg transition-all"
+            data-aos="zoom-in"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h2>Muhammad Uzair</h2>
+          <p>
+            Building intelligent solutions at the intersection of AI and
+            full-stack development
+          </p>
+          <div class="social-links">
+            <a
+              href="https://github.com/Uzair-DevOps"
+              class="social-link"
+              aria-label="GitHub"
+            >
+              <!-- GitHub SVG -->
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-contact">
+          <h3>Contact</h3>
+          <p>Toba Tek Singh, Pakistan</p>
+          <a href="mailto:uzairyasin395@gmail.com">uzairyasin395@gmail.com</a>
+          <p>github.com/Uzair-DevOps</p>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>Copyright © 2024 Muhammad Uzair. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Three.js Animation
+      const canvas = document.getElementById("animation-canvas");
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.z = 25;
+
+      // Create black hole effect
+      const blackHoleGeometry = new THREE.RingGeometry(2, 8, 128);
+      const blackHoleMaterial = new THREE.ShaderMaterial({
+        vertexShader: `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+          `,
+        fragmentShader: `
+            varying vec2 vUv;
+            uniform float time;
+            
+            void main() {
+              float dist = length(vUv - vec2(0.5));
+              float alpha = smoothstep(0.0, 0.5, dist);
+              
+              // Enhanced glow effect with reduced intensity
+              float glow = pow(1.0 - dist, 4.0) * 0.6; // Reduced glow intensity
+              
+              // Dynamic color mixing with reduced opacity
+              vec3 innerColor = vec3(0.8, 0.0, 1.0) * 0.5;  // Reduced brightness
+              vec3 midColor = vec3(0.0, 0.8, 1.0) * 0.5;    // Reduced brightness
+              vec3 outerColor = vec3(1.0, 0.0, 0.5) * 0.5;  // Reduced brightness
+              
+              // Animated color transitions
+              float pulseInner = sin(time * 2.0) * 0.5 + 0.5;
+              float pulseOuter = cos(time * 1.5) * 0.5 + 0.5;
+              
+              // Create swirling effect
+              float angle = atan(vUv.y - 0.5, vUv.x - 0.5);
+              float swirl = sin(angle * 6.0 + time * 3.0) * 0.5 + 0.5;
+              
+              // Combine colors with swirl effect
+              vec3 color = mix(
+                mix(innerColor, midColor, dist * 2.0),
+                outerColor,
+                swirl
+              );
+              
+              // Add pulsing and intensity
+              color *= (1.0 + pulseInner * 0.5) * (1.0 + pulseOuter * 0.3);
+              color += vec3(0.1, 0.0, 0.2) * glow * (1.0 + sin(time * 4.0) * 0.3);
+              
+              // Add electric-like effects
+              float electric = pow(sin(dist * 20.0 - time * 5.0) * 0.5 + 0.5, 8.0);
+              color += vec3(0.5, 0.7, 1.0) * electric * 0.5;
+              
+              // Reduce final opacity
+              gl_FragColor = vec4(color, (alpha * glow + electric * 0.5) * 0.8); // Reduced opacity
+            }
+          `,
+        transparent: true,
+        uniforms: {
+          time: { value: 0 },
+        },
+        side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending,
+      });
+
+      // Create additional rings for enhanced effect
+      const outerRingGeometry = new THREE.RingGeometry(7, 7.2, 128);
+      const outerRingMaterial = new THREE.ShaderMaterial({
+        vertexShader: `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+          `,
+        fragmentShader: `
+            varying vec2 vUv;
+            uniform float time;
+            
+            void main() {
+              float angle = atan(vUv.y - 0.5, vUv.x - 0.5);
+              float intensity = 0.5 + 0.5 * sin(angle * 30.0 + time * 5.0);
+              intensity = pow(intensity, 3.0);
+              vec3 color = mix(
+                vec3(1.0, 0.0, 0.5),
+                vec3(0.5, 0.0, 1.0),
+                intensity
+              );
+              gl_FragColor = vec4(color, intensity * 0.4); // Reduced opacity
+            }
+          `,
+        transparent: true,
+        uniforms: {
+          time: { value: 0 },
+        },
+        blending: THREE.AdditiveBlending,
+      });
+
+      const blackHole = new THREE.Mesh(blackHoleGeometry, blackHoleMaterial);
+      const outerRing = new THREE.Mesh(outerRingGeometry, outerRingMaterial);
+      blackHole.add(outerRing);
+
+      // Add subtle oscillation to the black hole
+      blackHole.scale.set(0.8, 0.8, 0.8); // Reduced from 1.2 to 0.8
+      scene.add(blackHole);
+
+      // Create particles
+      const particlesGeometry = new THREE.BufferGeometry();
+      const particlesCount = 8000; // Increased particle count
+
+      const positions = new Float32Array(particlesCount * 3);
+      const colors = new Float32Array(particlesCount * 3);
+      const sizes = new Float32Array(particlesCount);
+      const accelerations = new Float32Array(particlesCount * 3);
+
+      for (let i = 0; i < particlesCount; i++) {
+        const i3 = i * 3;
+        const radius = Math.random() * 20 + 5;
+        const spinAngle = radius * 2;
+        const branchAngle = ((i % 5) * Math.PI * 2) / 5;
+
+        const randomX =
+          Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 0.5;
+        const randomY =
+          Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 0.5;
+        const randomZ =
+          Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 0.5;
+
+        positions[i3] = Math.cos(spinAngle + branchAngle) * radius + randomX;
+        positions[i3 + 1] = randomY * 2;
+        positions[i3 + 2] =
+          Math.sin(spinAngle + branchAngle) * radius + randomZ;
+
+        // Enhanced color palette with more variation
+        const mixedColor = new THREE.Color();
+        const color1 = new THREE.Color("#ff00ff");
+        const color2 = new THREE.Color("#00ffff");
+        const color3 = new THREE.Color("#ff1493");
+        const color4 = new THREE.Color("#4b0082");
+
+        const mixRatio = Math.random();
+        const colorIndex = i % 4;
+        if (colorIndex === 0) {
+          mixedColor.lerpColors(color1, color2, mixRatio);
+        } else if (colorIndex === 1) {
+          mixedColor.lerpColors(color2, color3, mixRatio);
+        } else if (colorIndex === 2) {
+          mixedColor.lerpColors(color3, color4, mixRatio);
+        } else {
+          mixedColor.lerpColors(color4, color1, mixRatio);
+        }
+
+        colors[i3] = mixedColor.r;
+        colors[i3 + 1] = mixedColor.g;
+        colors[i3 + 2] = mixedColor.b;
+
+        sizes[i] = Math.random() * 0.2 + 0.05;
+
+        // Add acceleration values for particle movement
+        accelerations[i3] = (Math.random() - 0.5) * 0.02;
+        accelerations[i3 + 1] = (Math.random() - 0.5) * 0.02;
+        accelerations[i3 + 2] = (Math.random() - 0.5) * 0.02;
+      }
+
+      particlesGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3)
+      );
+      particlesGeometry.setAttribute(
+        "color",
+        new THREE.BufferAttribute(colors, 3)
+      );
+      particlesGeometry.setAttribute(
+        "size",
+        new THREE.BufferAttribute(sizes, 1)
+      );
+
+      const particlesMaterial = new THREE.ShaderMaterial({
+        vertexShader: `
+            attribute float size;
+            varying vec3 vColor;
+            uniform float time;
+            
+            void main() {
+              vColor = color;
+              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+              float dist = length(position.xyz);
+              float angle = time * (1.0 / (dist * 0.5 + 1.0));
+              
+              // Spiral effect towards center
+              vec3 pos = position;
+              if(dist > 2.0) {
+                pos.x *= 0.95 + sin(angle) * 0.05;
+                pos.z *= 0.95 + cos(angle) * 0.05;
+                pos *= 0.9995;
+              }
+              
+              mvPosition = modelViewMatrix * vec4(pos, 1.0);
+              gl_PointSize = size * (300.0 / -mvPosition.z) * (1.0 + sin(time * 2.0 + dist) * 0.2);
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+        fragmentShader: `
+            varying vec3 vColor;
+            
+            void main() {
+              float strength = distance(gl_PointCoord, vec2(0.5));
+              strength = 1.0 - strength;
+              strength = pow(strength, 3.0);
+              
+              vec3 finalColor = mix(vec3(0.0), vColor, strength);
+              gl_FragColor = vec4(finalColor, strength);
+            }
+          `,
+        transparent: true,
+        vertexColors: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        uniforms: {
+          time: { value: 0 },
+        },
+      });
+
+      const particlesMesh = new THREE.Points(
+        particlesGeometry,
+        particlesMaterial
+      );
+      scene.add(particlesMesh);
+
+      // Enhanced mouse interaction
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetRotationX = 0;
+      let targetRotationY = 0;
+      let currentRotationX = 0;
+      let currentRotationY = 0;
+
+      const handlePointerMove = (event) => {
+        const x = event.clientX || event.touches[0]?.clientX || 0;
+        const y = event.clientY || event.touches[0]?.clientY || 0;
+
+        mouseX = (x / window.innerWidth) * 2 - 1;
+        mouseY = -(y / window.innerHeight) * 2 + 1;
+
+        targetRotationX = mouseY * 0.8;
+        targetRotationY = mouseX * 0.8;
+      };
+
+      document.addEventListener("mousemove", handlePointerMove);
+      document.addEventListener("touchmove", handlePointerMove);
+
+      let scrollY = 0;
+      window.addEventListener("scroll", () => {
+        scrollY = window.scrollY / window.innerHeight;
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        const time = Date.now() * 0.001;
+
+        // Enhanced black hole animation
+        blackHole.rotation.z += 0.001;
+        blackHoleMaterial.uniforms.time.value = time;
+        outerRingMaterial.uniforms.time.value = time;
+
+        // Add pulsing scale effect
+        const scale = 0.8 + Math.sin(time * 2) * 0.03; // Reduced scale variation
+        blackHole.scale.set(scale, scale, scale);
+
+        // Add subtle wobble
+        blackHole.rotation.x = Math.sin(time * 0.5) * 0.05; // Reduced from 0.1
+        blackHole.rotation.y = Math.cos(time * 0.3) * 0.05; // Reduced from 0.1
+
+        // Update particles
+        particlesMaterial.uniforms.time.value = time;
+
+        // Smooth camera movement
+        currentRotationX += (targetRotationX - currentRotationX) * 0.05;
+        currentRotationY += (targetRotationY - currentRotationY) * 0.05;
+
+        particlesMesh.rotation.x = currentRotationX;
+        particlesMesh.rotation.y = currentRotationY;
+        blackHole.rotation.x += currentRotationX * 0.2;
+        blackHole.rotation.y += currentRotationY * 0.2;
+
+        // Particle movement towards black hole
+        const positions = particlesMesh.geometry.attributes.position.array;
+        const sizes = particlesMesh.geometry.attributes.size.array;
+
+        for (let i = 0; i < positions.length; i += 3) {
+          const x = positions[i];
+          const y = positions[i + 1];
+          const z = positions[i + 2];
+
+          const distance = Math.sqrt(x * x + y * y + z * z);
+
+          if (distance < 3) {
+            // Enhanced particle respawn
+            const angle = Math.random() * Math.PI * 2;
+            const radius = 20 + Math.random() * 5;
+            positions[i] = Math.cos(angle) * radius;
+            positions[i + 1] = (Math.random() - 0.5) * radius;
+            positions[i + 2] = Math.sin(angle) * radius;
+          } else {
+            // Enhanced gravitational pull
+            const force = 0.15 / (distance * distance);
+            const spiral = 0.2 * Math.sin(distance - time * 2);
+
+            positions[i] -= x * force + z * spiral * 0.1;
+            positions[i + 1] -= y * force;
+            positions[i + 2] -= z * force - x * spiral * 0.1;
+          }
+
+          // Enhanced particle size animation
+          const idx = i / 3;
+          const sizePulse = Math.sin(time * 2 + idx) * 0.1;
+          const distanceEffect = Math.max(0, 1 - distance / 20);
+          sizes[idx] = (0.15 + sizePulse) * (1 + distanceEffect);
+        }
+
+        particlesMesh.geometry.attributes.position.needsUpdate = true;
+        particlesMesh.geometry.attributes.size.needsUpdate = true;
+
+        camera.position.y = -scrollY * 5;
+
+        renderer.render(scene, camera);
+      }
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      });
+
+      animate();
+    </script>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        offset: 100,
+        once: true,
+      });
+    </script>
+
+    <script>
+      // Enhanced typing animation
+      const texts = {
+        greeting: "Hi, I am Muhammad Uzair",
+        role: "Full Stack Developer and",
+        specialty: "AI Expert",
+      };
+
+      const delay = 60; // Faster typing
+      const pauseBeforeErase = 4000; // Longer pause before erasing
+      const pauseBeforeNext = 1000; // Longer pause between lines
+
+      async function typeText(element, text) {
+        element.style.opacity = "0";
+        element.classList.add("typing-container");
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        element.style.opacity = "1";
+
+        let displayText = "";
+        const letters = text.split("");
+
+        for (let i = 0; i < letters.length; i++) {
+          displayText += letters[i];
+          element.textContent = displayText;
+
+          // Add random delay variation for more natural typing
+          const randomDelay = delay + (Math.random() * 100 - 50);
+
+          // Add special effects for certain characters
+          if (letters[i] === " ") {
+            await new Promise((resolve) =>
+              setTimeout(resolve, randomDelay * 2)
+            );
+          } else if (letters[i] === ",") {
+            await new Promise((resolve) =>
+              setTimeout(resolve, randomDelay * 3)
+            );
+          } else {
+            await new Promise((resolve) => setTimeout(resolve, randomDelay));
+          }
+
+          // Add subtle scale animation for each character
+          element.style.transform = "scale(1.02)";
+          await new Promise((resolve) => setTimeout(resolve, 50));
+          element.style.transform = "scale(1)";
+        }
+
+        // Add completion effect
+        element.style.animation = "letterSpacing 1s ease-in-out";
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        element.style.animation = "";
+      }
+
+      async function eraseText(element) {
+        let text = element.textContent;
+        const letters = text.split("");
+
+        while (letters.length > 0) {
+          letters.pop();
+          element.textContent = letters.join("");
+
+          // Add random delay and effects for erasing
+          const randomDelay = delay / 2 + (Math.random() * 30 - 15);
+          element.style.transform = "scale(0.98)";
+          await new Promise((resolve) => setTimeout(resolve, 50));
+          element.style.transform = "scale(1)";
+          await new Promise((resolve) => setTimeout(resolve, randomDelay));
+        }
+
+        element.classList.remove("typing-container");
+      }
+
+      async function startTypingAnimation() {
+        const greetingElement = document.getElementById("typing-text");
+        const roleElement = document.getElementById("typing-role");
+        const specialtyElement = document.getElementById("typing-specialty");
+
+        while (true) {
+          // Type greeting with slide up
+          await typeText(greetingElement, texts.greeting);
+          await new Promise((resolve) => setTimeout(resolve, pauseBeforeNext));
+
+          // Type role with slide up
+          await typeText(roleElement, texts.role);
+          await new Promise((resolve) => setTimeout(resolve, pauseBeforeNext));
+
+          // Type specialty with slide up
+          await typeText(specialtyElement, texts.specialty);
+          await new Promise((resolve) => setTimeout(resolve, pauseBeforeErase));
+
+          // Add slight delay before erasing
+          await new Promise((resolve) => setTimeout(resolve, 500));
+
+          // Erase with fade out effect
+          await eraseText(specialtyElement);
+          await new Promise((resolve) => setTimeout(resolve, pauseBeforeNext));
+          await eraseText(roleElement);
+          await new Promise((resolve) => setTimeout(resolve, pauseBeforeNext));
+          await eraseText(greetingElement);
+          await new Promise((resolve) => setTimeout(resolve, pauseBeforeNext));
+        }
+      }
+
+      // Start the animation when the page loads
+      window.addEventListener("load", () => {
+        // Small delay before starting the animation
+        setTimeout(startTypingAnimation, 500);
+      });
+
+      // Updated typing animation text
+
+      // Keep rest of the typing animation code same
+    </script>
+  </body>
+</html>
