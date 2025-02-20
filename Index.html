@@ -871,6 +871,207 @@
         display: block;
         transform-style: preserve-3d;
       }
+
+/* Existing styles... */
+
+/* ================== */
+/* Responsive Additions */
+/* ================== */
+
+@media (max-width: 1200px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 100px;
+  }
+  
+  .hero-image {
+    margin-top: 40px;
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 992px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 5%;
+  }
+
+  .nav-center {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .project-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .project-image {
+    order: -1;
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+    min-height: auto;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  }
+
+  .tech-item img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .company-logos {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Adjustments for project section on medium screens */
+  .projects {
+    padding: 3rem 5%; /* Reduced padding */
+  }
+
+  .project-card {
+    padding: 1.5rem; /* Reduced padding */
+  }
+
+  .project-info h3 {
+    font-size: 1.75rem; /* Reduced font size */
+  }
+
+  .project-info p {
+    font-size: 0.9rem; /* Reduced font size */
+  }
+
+  .tech-badge {
+    font-size: 0.75rem; /* Reduced font size */
+    padding: 0.3rem 0.6rem; /* Reduced padding */
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-link {
+    font-size: 0.9rem;
+  }
+
+  .nav-button {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .cta-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .project-card {
+    padding: 1.5rem;
+  }
+
+  .project-links {
+    flex-direction: column;
+  }
+
+  .project-link {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 480px) {
+  .nav-center {
+    gap: 1rem;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .services-title, 
+  .projects-title,
+  .about-title {
+    font-size: 2rem;
+  }
+
+  .project-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .tech-item span {
+    font-size: 0.7rem;
+  }
+
+  .footer-brand h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Prevent horizontal overflow */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Make all images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Adjust marquee for mobile */
+marquee {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+}
+
+.marquee-container {
+  display: flex;
+  flex-wrap: nowrap;
+  min-width: fit-content;
+}
+
     </style>
   </head>
   <body>
@@ -1133,9 +1334,7 @@
               <div class="tech-badge">
                 <span>Html</span>
               </div>
-              <div class="tech-badge">
-                <span>Css</span>
-              </div>
+
               <div class="tech-badge">
                 <span>Javascript</span>
               </div>
